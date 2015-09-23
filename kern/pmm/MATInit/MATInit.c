@@ -32,8 +32,59 @@ pmem_init(unsigned int mbi_addr)
    *       divided by the page size.
    */
   // TODO
-
+	nps = 0xffffffff / PAGESIZE; 
 	set_nps(nps); // Setting the value computed above to NUM_PAGES.
+
+	int rSize = get_size();
+	
+	int i, j, len;
+	int startPg, endPg, startRg, endRg;
+	int set; 
+
+	for (i = 0; i < nps; ++i)
+	{
+		startPg = PAGESIZE*i;
+		endPg = (i+1)*PAGESIZE - 1;
+		
+		// if entire page is in kernel, set to 1
+		if (startPg >= VM_USERHI || endPg < VM_USERLO)
+			at_set_perm(i, 1);
+		// if entire page is in user space
+		else if (startPg >= VM_USERLO && endPg < VM_USERHI)
+		{
+			set = 0;
+			// look for the range in which page belongs
+			for (j = 0; j < rSize; ++j)
+			{
+				startRg = get_mms(j);
+				len = get_mml(j);
+				endRg = startRg + len - 1;
+
+				// if page lies entirely in range
+				if (startPg >= startRg && endPg <= endRg)
+				{
+					if (is_usable(j))
+						at_set_perm(i, 2);
+					else
+						at_set_perm(i, 0);
+					set = 1;
+					break;
+				}
+				// page is half in this range, half in another
+				// else if ((startPg < startRg && endPg <= endRg) || 
+				// 	 (startPg >= startRg && endPg > endRg))
+				// {
+				// 	at_set_perm(i, 0);
+				//	break;
+				// }
+			}
+			if (!set) at_set_perm(i, 0);
+		}
+		// if page is half in kernel, half in user space
+		else
+			at_set_perm(i, 0);
+	}	
+
 
   /**
    * Initialization of the physical allocation table (AT).

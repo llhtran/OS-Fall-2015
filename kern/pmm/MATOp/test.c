@@ -5,7 +5,7 @@
 int MATOp_test1()
 {
   int page_index = palloc();
-  if (page_index < 262144) {
+  if (page_index < 262144) { 
     pfree(page_index);
     dprintf("test 1 failed.\n");
     return 1;

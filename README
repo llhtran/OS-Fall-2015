@@ -1,3 +1,57 @@
 List here the name of your partner, answers to the questions in the "Question" section of the lab, the brief description of what you have implemented, and anything else you would like us to know.
 
 Partner: Rebecca Nickerson Yale 2017
+
+QUESTION A
+
+1. At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?
+
+The processor starts executing 32-bit code after instruction (gdb)
+[f000:d25e]    0xfd25e:	ljmpl  $0x8,$0xfd266
+which specifies a long pointer to a code segment of 32-bit code instructions. The processor will jump to that address upon that instruction. However, if we look at the code preceding this instruction in boot1.S:
+switch_prot:
+        lgdt    gdtdesc
+        movl    %cr0, %eax
+        orl     $CR0_PE_ON, %eax
+        movl    %eax, %cr0
+        /*
+         * switch to the protected mode
+         */
+        ljmp    $PROT_MODE_CSEG, $protcseg
+See that $CR0_PE_ON is a flag that enables protected mode, and we are loading that into a register %cr0. It seems logical that if this flag is not enabled, then he processor will not go into 32-bit mode. 
+
+
+2. What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?
+
+The last instruction the bootloader executed is in exec_kernel.S:
+jmp     *%edx
+The first instruction of the kernel after it just loaded is in entry.S:
+cli 
+
+
+3. Where is the first instruction of the kernel?
+Output from GDB: kernel's first instruction at 0x102504
+=> 0x8f02 <exec_kernel+14>:	jmp    *%edx
+10		jmp	*%edx
+(gdb) si
+=> 0x102504 <start>:	cli    
+0x00102504 in start ()
+
+
+4. How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information?
+
+        // load each program segment (ignores ph flags)
+        ph = (proghdr *) ((uint8_t *) ELFHDR + ELFHDR->e_phoff);
+        eph = ph + ELFHDR->e_phnum;
+
+        for (; ph < eph; ph++)
+        {
+                readsection(ph->p_va, ph->p_memsz, ph->p_offset, dkernel);
+        }
+
+Bootloader finds the information in the ELF Header, which holds the program header table. In the load_kernel() function in boot1main.c, the bootloader takes the file offset of the table (e_phoff) and the number of entries it holds (e_phnum) and iterates through the table to load all the sectors with readsection(). Naturally, readsection() takes p_va (section virtual address), p_memsz (section size) and p_offset (section file offset) for each section, as well last the start address of the bootable partition (bootable_lba).
+
+
+Note: I have a warning when I run make TEST=1 as follows:
+warning: iteration 524288u invokes undefined behavior [-Waggressive-loop-optimizations]? 
+From Googling, I believe this is happening because when the compiler tries to optimize my MATInit.c, it thinks a particular for-loop in my code (looping through pages) can possibly run infinitely (undefined behavior). Logically, this can never happen, so the warning can/should be ignored. 
