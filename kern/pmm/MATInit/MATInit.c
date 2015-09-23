@@ -43,7 +43,11 @@ pmem_init(unsigned int mbi_addr)
 			maxAddr = endRg;
 	}
 
-	nps = maxAddr / PAGESIZE; 
+	int remainder = maxAddr % PAGESIZE;
+	if (remainder == PAGESIZE-1)
+		nps = (maxAddr / PAGESIZE) + 1;
+	else
+		nps = maxAddr / PAGESIZE; 
 	set_nps(nps); // Setting the value computed above to NUM_PAGES.
 	
 	int startPg, endPg;
