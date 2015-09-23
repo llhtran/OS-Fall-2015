@@ -52,6 +52,3 @@ Output from GDB: kernel's first instruction at 0x102504
 Bootloader finds the information in the ELF Header, which holds the program header table. In the load_kernel() function in boot1main.c, the bootloader takes the file offset of the table (e_phoff) and the number of entries it holds (e_phnum) and iterates through the table to load all the sectors with readsection(). Naturally, readsection() takes p_va (section virtual address), p_memsz (section size) and p_offset (section file offset) for each section, as well last the start address of the bootable partition (bootable_lba).
 
 
-Note: I have a warning when I run make TEST=1 as follows:
-warning: iteration 524288u invokes undefined behavior [-Waggressive-loop-optimizations]? 
-From Googling, I believe this is happening because when the compiler tries to optimize my MATInit.c, it thinks a particular for-loop in my code (looping through pages) can possibly run infinitely (undefined behavior). Logically, this can never happen, so the warning can/should be ignored. 

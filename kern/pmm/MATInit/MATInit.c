@@ -32,13 +32,21 @@ pmem_init(unsigned int mbi_addr)
    *       divided by the page size.
    */
   // TODO
-	nps = 0xffffffff / PAGESIZE; 
-	set_nps(nps); // Setting the value computed above to NUM_PAGES.
-
+	unsigned int maxAddr = 0;
+	int i, j, k;
+	int startRg, endRg, len;
 	int rSize = get_size();
+
+	for (k = 0; k < rSize; ++k) {
+		endRg = get_mms(k) + get_mml(k);
+		if (endRg > maxAddr)
+			maxAddr = endRg;
+	}
+
+	nps = maxAddr / PAGESIZE; 
+	set_nps(nps); // Setting the value computed above to NUM_PAGES.
 	
-	int i, j, len;
-	int startPg, endPg, startRg, endRg;
+	int startPg, endPg;
 	int set; 
 
 	for (i = 0; i < nps; ++i)

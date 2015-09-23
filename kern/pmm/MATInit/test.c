@@ -5,7 +5,6 @@ int MATInit_test1()
 {
   int i;
   int nps = get_nps();
-  
 	if (nps <= 1000) {
     dprintf("test 1 failed.\n");
     return 1;
