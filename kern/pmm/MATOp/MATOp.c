@@ -1,6 +1,12 @@
 #include <lib/debug.h>
 #include "import.h"
 
+#define PAGESIZE	4096
+#define VM_USERLO	0x40000000
+#define VM_USERHI	0xF0000000
+#define VM_USERLO_PI 	(VM_USERLO / PAGESIZE)
+#define VM_USERHI_PI	(VM_USERHI / PAGESIZE)
+
 /**
  * Allocation of a physical page.
  *
@@ -15,11 +21,30 @@
  * 2. Optimize the code with the memorization techniques so that you do not have to
  *    scan the allocation table from scratch every time.
  */
+
+// use a global variable to remember last page searched
+int last = VM_USERLO_PI;
+
 unsigned int
 palloc()
 {
-  // TODO
-  return 0;
+	int i;
+	int found = 0;
+
+	for (i = last; i < VM_USERHI_PI; ++i)
+	{	
+		if (at_is_norm(i) && !at_is_allocated(i))
+		{
+			at_set_allocated(i, 1);
+			found = i;
+			last = i;
+			if (last == VM_USERHI_PI - 1)
+				last = VM_USERLO_PI;
+			break;
+		}	
+	}
+
+	return found;
 } 
 
 
@@ -34,5 +59,5 @@ palloc()
 void
 pfree(unsigned int pfree_index)
 {
-  // TODO
+	at_set_allocated(pfree_index, 0);
 }

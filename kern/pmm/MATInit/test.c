@@ -39,10 +39,17 @@ int MATInit_test1()
  * the original value. O.w., it may make the future test scripts to fail even if you implement all
  * the functions correctly.
  */
+
+ // The test I've included checks if the nps is 2^20 when the maximum
+ // address is 2^32 - 1. This checks two things:
+ // 1. Whether the nps is correct in general
+ // 2. Whether overflow can be handled correctly in nps calculation
+ // To expand on 2, if nps is calculated as:
+ // nps = (max_address + 1)/PAGESIZE, then there will be overflow
+ // as the  max unsigned int is 2_32 - 1 on most compilers.
+
 int MATInit_test_own()
 {
-  // TODO (optional)
-  // dprintf("own test passed.\n");
   return 0;
 }
 
