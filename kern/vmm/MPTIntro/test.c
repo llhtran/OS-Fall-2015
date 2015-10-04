@@ -22,13 +22,13 @@ int MPTIntro_test1()
     dprintf("test 1 failed.\n");
     dprintf("%d\n", get_pdir_entry(1,2));
     return 1;
-  }/*
+  }
   rmv_pdir_entry(1, 1);
   rmv_pdir_entry(1, 2);
   if (get_pdir_entry(1, 1) != 0 || get_pdir_entry(1, 2) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }*/
+  }
   dprintf("test 1 passed.\n");
   return 0;
 }
