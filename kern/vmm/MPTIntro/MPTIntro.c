@@ -53,7 +53,8 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // this will be used to map the page directory entry to identity page table.
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
-    PDirPool[proc_index][pde_index] = (char *) IDPTbl[proc_index] + 7;
+    // STILL: Don't understand this
+    PDirPool[proc_index][pde_index] = (char *) IDPTbl[pde_index] + 7;
 }   
 
 // removes specified page directory entry (set the page directory entry to 0).
@@ -68,7 +69,7 @@ void rmv_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index)
 {   
     // eliminating the permission bits
-    unsigned int pte = PDirPool[proc_index][pde_index];
+    unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
     pte = pte & (~(0) << 3);
     return IDPTbl[pte][pte_index];
 }
@@ -77,7 +78,7 @@ unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, uns
 // you should also set the given permission
 void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index, unsigned int page_index, unsigned int perm)
 {   
-    unsigned int pte = PDirPool[proc_index][pde_index];
+    unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
     pte = pte & (~(0) << 3);
     IDPTbl[pte][pte_index] = PAGESIZE * page_index + perm;
     // STILL: what is perm? 
@@ -87,11 +88,16 @@ void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // you should also set the given permission
 void set_ptbl_entry_identity(unsigned int pde_index, unsigned int pte_index, unsigned int perm)
 {
-    // TODO
+    unsigned int pte = (unsigned int) PDirPool[0][pde_index];
+    pte = pte & (~(0) << 3);
+    IDPTbl[pte][pte_index] = IDPTbl[pte] + perm;
+    // STILL: Don't understand this
 }
 
 // sets the specified page table entry to 0
 void rmv_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index)
 {
-    // TODO
+    unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
+    pte = pte & (~(0) << 3);
+    IDPTbl[pte][pte_index] = 0;
 }
