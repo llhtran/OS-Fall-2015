@@ -20,6 +20,7 @@ int MPTIntro_test1()
   }
   if (get_pdir_entry(1, 2) != 409607) {
     dprintf("test 1 failed.\n");
+    dprintf("%d\n", get_pdir_entry(1,2));
     return 1;
   }/*
   rmv_pdir_entry(1, 1);
