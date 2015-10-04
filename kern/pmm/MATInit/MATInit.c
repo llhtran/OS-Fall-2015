@@ -49,7 +49,7 @@ pmem_init(unsigned int mbi_addr)
 	else
 		nps = maxAddr / PAGESIZE; 
 	set_nps(nps); // Setting the value computed above to NUM_PAGES.
-	
+	KERN_DEBUG("Number of nps: %d\n", nps);	
 	int startPg, endPg;
 	int set; 
 
