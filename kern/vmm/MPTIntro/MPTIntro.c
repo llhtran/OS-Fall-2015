@@ -43,7 +43,7 @@ unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 // you should also set the permissions PTE_P, PTE_W, and PTE_U
 void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned int page_index)
 {
-    PDirPool[proc_index][pde_index] = (char *) page_index + 7;
+    PDirPool[proc_index][pde_index] = (char *) PDirPool[proc_index] + page_index + 7;
 }   
 
 // sets the page directory entry # [pde_index] for the process # [proc_index]
