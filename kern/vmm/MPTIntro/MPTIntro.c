@@ -36,6 +36,7 @@ void set_pdir_base(unsigned int index)
 unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
     // STILL: not sure how this can be used as a test...
+    // STILL: what about permissions?
     return (unsigned int) PDirPool[proc_index][pde_index];
 }   
 
@@ -66,15 +67,18 @@ void rmv_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 // do not forget that the permission info is also stored in the page directory entries.
 unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index)
 {   
-    // TODO
-    return 0;
+    // eliminating the permission bits
+    unsigned int pte = PDirPool[proc_index][pde_index] & (~(0) << 3);
+    return IDPTbl[pte][pte_index];
 }
 
 // sets specified page table entry with the start address of physical page # [page_index]
 // you should also set the given permission
 void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index, unsigned int page_index, unsigned int perm)
 {   
-    // TODO
+    unsigned int pte = PDirPool[proc_index][pde_index] & (~(0) << 3);
+    IDPTbl[pte][pte_index] = PAGESIZE * page_index + perm;
+    // STILL: what is perm? 
 }   
 
 // sets the specified page table entry in IDPTbl as the identity map.
