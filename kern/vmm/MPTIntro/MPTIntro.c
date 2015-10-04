@@ -68,7 +68,8 @@ void rmv_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index)
 {   
     // eliminating the permission bits
-    unsigned int pte = PDirPool[proc_index][pde_index] & (~(0) << 3);
+    unsigned int pte = PDirPool[proc_index][pde_index];
+    pte = pte & (~(0) << 3);
     return IDPTbl[pte][pte_index];
 }
 
@@ -76,7 +77,8 @@ unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, uns
 // you should also set the given permission
 void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index, unsigned int page_index, unsigned int perm)
 {   
-    unsigned int pte = PDirPool[proc_index][pde_index] & (~(0) << 3);
+    unsigned int pte = PDirPool[proc_index][pde_index];
+    pte = pte & (~(0) << 3);
     IDPTbl[pte][pte_index] = PAGESIZE * page_index + perm;
     // STILL: what is perm? 
 }   
