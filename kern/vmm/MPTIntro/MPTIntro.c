@@ -27,7 +27,7 @@ unsigned int IDPTbl[1024][1024] gcc_aligned(PAGESIZE);
 // sets the CR3 register with the start address of the page structure for process # [index]
 void set_pdir_base(unsigned int index)
 {
-    set_cr3(PDirPool[index][0]);
+    set_cr3(&PDirPool[index][0]);
 }
 
 // returns the page directory entry # [pde_index] of the process # [proc_index]
