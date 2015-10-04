@@ -27,22 +27,23 @@ unsigned int IDPTbl[1024][1024] gcc_aligned(PAGESIZE);
 // sets the CR3 register with the start address of the page structure for process # [index]
 void set_pdir_base(unsigned int index)
 {
-    set_cr3(&PDirPool[index][0]);
+    // STILL: is this correct? lol I can't pointers
+    set_cr3(PDirPool[index]);
 }
 
 // returns the page directory entry # [pde_index] of the process # [proc_index]
 // this can be used to test whether the page directory entry is mapped
 unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
-    // TODO
-    return 0;
+    // STILL: not sure how this can be used as a test...
+    return (unsigned int) PDirPool[proc_index][pde_index];
 }   
 
 // sets specified page directory entry with the start address of physical page # [page_index].
 // you should also set the permissions PTE_P, PTE_W, and PTE_U
 void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned int page_index)
 {
-    // TODO
+    PDirPool[proc_index][pde_index] = (unsigned int) PDirPool[proc_index] + 7;
 }   
 
 // sets the page directory entry # [pde_index] for the process # [proc_index]
@@ -51,14 +52,14 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // this will be used to map the page directory entry to identity page table.
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
-    // TODO
+    PDirPool[proc_index][pde_index] = (unsigned int) IDPTbl[proc_index] + 7;
 }   
 
 // removes specified page directory entry (set the page directory entry to 0).
 // don't forget to cast the value to (char *).
 void rmv_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
-    // TODO
+    PDirPool[proc_index][pde_index] = (char *) 0;
 }   
 
 // returns the specified page table entry.
