@@ -54,6 +54,7 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
     // STILL: Don't understand this
+    // QUESTION
     PDirPool[proc_index][pde_index] = (char *) IDPTbl[pde_index] + 7;
 }   
 
@@ -90,8 +91,9 @@ void set_ptbl_entry_identity(unsigned int pde_index, unsigned int pte_index, uns
 {
     unsigned int pte = (unsigned int) PDirPool[0][pde_index];
     pte = pte & (~(0) << 3);
-    IDPTbl[pte][pte_index] = IDPTbl[pte] + perm;
+    IDPTbl[pte][pte_index] = (unsigned int) IDPTbl[pte] + perm;
     // STILL: Don't understand this
+    // QUESTION
 }
 
 // sets the specified page table entry to 0
