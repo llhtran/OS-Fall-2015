@@ -54,7 +54,7 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // this will be used to map the page directory entry to identity page table.
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
-    PDirPool[proc_index][pde_index] = (char *) (IDPTbl[pde_index] | (unsigned int) PT_PERM_PTU);
+    PDirPool[proc_index][pde_index] = (char *) ((unsigned int) IDPTbl[pde_index] | PT_PERM_PTU);
 }   
 
 // removes specified page directory entry (set the page directory entry to 0).
