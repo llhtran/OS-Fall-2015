@@ -88,11 +88,11 @@ void idptbl_init(unsigned int mbi_adr)
 
     for (i = 0; i < 1024; ++i) {
         for (j = 0; j < 1024; ++j) {
-            unsigned int addr = (pde_index << 22) + (pte_index << 12);
+            unsigned int addr = (i << 22) + (j << 12);
             if (addr < VM_USERLO || addr >= VM_USERHI)    
-                set_ptbl_entry_identity(pde, pte, kernelPerm);
+                set_ptbl_entry_identity(i, j, kernelPerm);
             else
-                set_ptbl_entry_identity(pde, pte, normalPerm);
+                set_ptbl_entry_identity(i, j, normalPerm);
         }
     }
 }
