@@ -44,7 +44,6 @@ unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 // you should also set the permissions PTE_P, PTE_W, and PTE_U
 void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned int page_index)
 {
-    // TODO: Use PT_PERM_PTU
     PDirPool[proc_index][pde_index] = (char *) (PAGESIZE * page_index | PT_PERM_PTU);
 }   
 

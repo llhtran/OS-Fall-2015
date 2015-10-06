@@ -34,13 +34,21 @@ void pdir_init_kern(unsigned int mbi_adr)
  * otherwise, it returns the physical page index registered in the page directory,
  * e.g., the return value of get_pdir_entry_by_va or alloc_ptbl.
  */
+
+ /**
+* Maps the physical page # [page_index] for the given virtual address with the given permission.
+* In the case, when the page table for the page directory entry is not set up, you need to allocate the page table first.
+* In the case of error (when the allocation fails), it returns the constant MagicNumber defined in lib/x86.h,
+* and when the page table is not set up , it returns the physical page index for the newly alloacted page table,
+* otherwise, it returns 0.
+*/
 unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int page_index, unsigned int perm)
 {   
 	// QUESTION: but pde is a PHYSICAL ADDRESS with permissions...
 	// Do I need to get rid of permissions?
 	// What are permission for?
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
-	if (!pde) 
+	if (!pde) // if nothing is allocated
 	{
 		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
 		if (!ptbl) return MagicNumber; 
@@ -54,7 +62,7 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 	else
 	{	
 		set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
-		return pde;
+		return 0;
 	}
 }
 
