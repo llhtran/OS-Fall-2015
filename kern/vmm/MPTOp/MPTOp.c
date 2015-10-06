@@ -82,21 +82,19 @@ void set_pdir_entry_by_va(unsigned int proc_index, unsigned int vaddr, unsigned 
 // while the permission for the rest should be PTE_P and PTE_W.
 void idptbl_init(unsigned int mbi_adr)
 {
-    int i, j;
-    int kernelProc = 0;
-    int kernelPerm = PTE_P + PTE_W + PTE_G;
-    int normalPerm = PTE_P + PTE_W;
+    /*int i, j;
+    int kernelPerm = PTE_P | PTE_W | PTE_G;
+    int normalPerm = PTE_P | PTE_W;
 
     container_init(mbi_adr);
 
     for (i = 0; i < 1024; ++i) {
         for (j = 0; j < 1024; ++j) {
-            // unsigned int addr = (i << 22); // + (j << 12)
-            unsigned int addr = (i << 12) + (j);
+            unsigned int addr = (i << 22); // + (j << 12)
             if (addr < VM_USERLO || addr >= VM_USERHI)    
                 set_ptbl_entry_identity(i, j, kernelPerm);
             else
                 set_ptbl_entry_identity(i, j, normalPerm);
         }
-    }
+    }*/
 }
