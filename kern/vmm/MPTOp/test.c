@@ -7,11 +7,11 @@ int MPTOp_test1()
   if (get_ptbl_entry_by_va(10, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }/*
+  }
   if (get_pdir_entry_by_va(10, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }
+  }/*
   set_pdir_entry_by_va(10, vaddr, 100);
   set_ptbl_entry_by_va(10, vaddr, 100, 259);
   if (get_ptbl_entry_by_va(10, vaddr) == 0) {
