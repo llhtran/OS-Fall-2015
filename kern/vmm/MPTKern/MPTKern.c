@@ -66,6 +66,6 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 unsigned int unmap_page(unsigned int proc_index, unsigned int vadr)
 {
 	unsigned int pte = get_ptbl_entry_by_va(proc_index, vadr);
-	if (pde) rmv_ptbl_entry_by_va(proc_index, vadr);
-	return pde;
+	if (pte) rmv_ptbl_entry_by_va(proc_index, vadr);
+	return pte;
 }   
