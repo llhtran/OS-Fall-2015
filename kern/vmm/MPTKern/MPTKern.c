@@ -40,11 +40,19 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 	if (!pde) 
 	{
 		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
-		if (!page_index) return MagicNumber; 
-		else return page_index;
+		if (!ptbl) return MagicNumber; 
+		else 
+		{
+			// QUESTION: why do I need set_pdir_entry_id?
+			set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
+			return ptbl;
+		}
 	}
-	else 
+	else
+	{	
+		set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
 		return pde;
+	}
 }
 
 /**
