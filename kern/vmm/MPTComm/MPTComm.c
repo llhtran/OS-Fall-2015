@@ -14,11 +14,11 @@
  */
 void pdir_init(unsigned int mbi_adr)
 {
-//    int i, j;
+    int i, j;
 
     idptbl_init(mbi_adr);
 
-/*    for (i = 0; i < NUM_IDS; ++i) {
+    for (i = 0; i < NUM_IDS; ++i) {
     	for (j = 0; j < 1024; ++j) {
             unsigned int addr = (i << 22);
         	if (addr < VM_USERLO || addr >= VM_USERHI)    
@@ -27,7 +27,7 @@ void pdir_init(unsigned int mbi_adr)
         		rmv_pdir_entry(i, j);
         }
     }
-*/
+
 }
 
 /**
