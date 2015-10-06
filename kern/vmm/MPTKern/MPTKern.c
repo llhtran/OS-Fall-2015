@@ -16,6 +16,7 @@ void pdir_init_kern(unsigned int mbi_adr)
 
     for (i = 0; i < 1024; ++i) 
     {
+    	unsigned int addr = (i << 22);
         if (addr >= VM_USERLO || addr < VM_USERHI)  
            	set_pdir_entry_identity(kernProc, i);
     }
