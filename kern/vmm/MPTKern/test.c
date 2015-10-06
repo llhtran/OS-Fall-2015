@@ -10,11 +10,11 @@ int MPTKern_test1()
   if (get_ptbl_entry_by_va(1, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }/*
+  }
   if (get_pdir_entry_by_va(1, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }
+  }/*
   map_page(1, vaddr, 100, 7);
   if (get_ptbl_entry_by_va(1, vaddr) == 0) {
     dprintf("test 1 failed.\n");
