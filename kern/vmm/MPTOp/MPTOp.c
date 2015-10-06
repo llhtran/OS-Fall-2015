@@ -30,8 +30,10 @@ unsigned int get_ptbl_entry_by_va(unsigned int proc_index, unsigned int vaddr)
     unsigned int pde_index = get_pde(vaddr);
     unsigned int pte_index = get_pte(vaddr);
     unsigned int result = get_ptbl_entry(proc_index, pde_index, pte_index);
-    if (result && get_pdir_entry(proc_index, pde_index))
+    if (result && get_pdir_entry(proc_index, pde_index)) {
+        KERN_DEBUG("result %d\n", result);
         return result;
+    }
     else 
         return 0;
 }         
