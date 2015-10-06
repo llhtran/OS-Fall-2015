@@ -14,7 +14,7 @@ unsigned int get_pde(unsigned int vaddr)
 
 unsigned int get_pte(unsigned int vaddr)
 {
-    unsigned int mask = 1023; //(~(0) >> 22);
+    unsigned int mask = (~(0U) >> 22);
     return (vaddr >> 12) & mask;
 }
 
