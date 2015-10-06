@@ -2,6 +2,11 @@
 
 #include "import.h"
 
+#define VM_USERLO       0x40000000
+#define VM_USERHI       0xF0000000
+#define VM_USERLO_PI    (VM_USERLO / PAGESIZE)
+#define VM_USERHI_PI    (VM_USERHI / PAGESIZE)
+
 /**
  * For each process from id 0 to NUM_IDS -1,
  * set the page directory entries so that the kernel portion of the map as identity map,
