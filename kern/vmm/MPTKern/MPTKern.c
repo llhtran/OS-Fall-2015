@@ -39,7 +39,7 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
 	if (!pde) 
 	{
-		unsigned int page_index = alloc_ptbl(proc_index, vadr);
+		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
 		if (!page_index) return MagicNumber; 
 		else return page_index;
 	}

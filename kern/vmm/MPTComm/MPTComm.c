@@ -62,11 +62,11 @@ unsigned int alloc_ptbl(unsigned int proc_index, unsigned int vadr)
 // and frees the page for the page table entries (with container_free).
 void free_ptbl(unsigned int proc_index, unsigned int vadr)
 {
-	rmv_pdir_entry_by_va(proc_index, vadr);
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
-	
 	// getting page_index
 	// mod to get rid of permissions
 	unsigned int page_index = (pde - (pde % PAGESIZE)) / PAGESIZE;
+
+	rmv_pdir_entry_by_va(proc_index, vadr);
 	container_free(proc_index, page_index);
 }
