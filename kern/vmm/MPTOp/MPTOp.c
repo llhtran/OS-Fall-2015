@@ -18,6 +18,8 @@ unsigned int get_pte(unsigned int vaddr)
     return (vaddr >> 12) & mask;
 }
 
+// QUESTION: Do we have to check if vadr is valid?
+
 /**
  * Returns the page table entry corresponding to the virtual address,
  * according to the page structure of process # [proc_index].

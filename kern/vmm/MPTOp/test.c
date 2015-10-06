@@ -8,7 +8,7 @@ int MPTOp_test1()
     dprintf("result is %d\n", get_ptbl_entry_by_va(10, vaddr));
     dprintf("test 1 failed.\n");
     return 1;
-  }/*
+  }
   if (get_pdir_entry_by_va(10, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
@@ -32,7 +32,7 @@ int MPTOp_test1()
   if (get_pdir_entry_by_va(10, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }*/
+  }
   dprintf("test 1 passed.\n");
   return 0;
 }
