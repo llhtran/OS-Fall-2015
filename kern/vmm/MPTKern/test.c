@@ -23,12 +23,12 @@ int MPTKern_test1()
   if (get_pdir_entry_by_va(1, vaddr) == 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }/*
+  }
   unmap_page(1, vaddr);
   if (get_ptbl_entry_by_va(1, vaddr) != 0) {
     dprintf("test 1 failed.\n");
     return 1;
-  }*/
+  }
   dprintf("test 1 passed.\n");
   return 0;
 }
