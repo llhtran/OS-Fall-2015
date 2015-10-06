@@ -23,9 +23,7 @@ void pdir_init(unsigned int mbi_adr)
             unsigned int addr = (j << 22);
         	if (addr < VM_USERLO || addr >= VM_USERHI)  {  
             	set_pdir_entry_identity(i, j);
-            	KERN_DEBUG("j is %d\n", j);
-            }
-        	else        
+            } else        
         		rmv_pdir_entry(i, j);
         }
     }
