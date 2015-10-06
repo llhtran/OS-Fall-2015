@@ -58,10 +58,8 @@ unsigned int alloc_ptbl(unsigned int proc_index, unsigned int vadr)
 void free_ptbl(unsigned int proc_index, unsigned int vadr)
 {
 	unsigned int pde_index = vadr >> 22;
+	rmv_pdir_entry(proc_index, pde_index);
 	unsigned int pde = get_pdir_entry(proc_index, pde_index);
-	unsigned int page_index = (pde - 7) / PAGESIZE;
-	int i;
-	for (i = 0; i < 1024; ++i) {
-		rmv_ptbl_entry(proc_index, pde_index, i);
-	} 
+	unsigned int page_index = (pde - (pde % PAGESIZE)) / PAGESIZE;
+	container_free(proc_index, page_index);
 }
