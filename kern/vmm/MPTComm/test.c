@@ -9,6 +9,7 @@ int MPTComm_test1()
   for (i = 0; i < 1024; i ++) {
     if (i < 256 || i >= 960) {
       if (get_ptbl_entry_by_va(10, i * 4096 * 1024) != i * 4096 * 1024 + 259) {
+        dprintf("i is %d\n", i);
         dprintf("result is %d\n", get_ptbl_entry_by_va(10, i * 4096 * 1024));
         dprintf("test 1 failed.\n");
         return 1;
