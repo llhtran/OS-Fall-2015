@@ -33,7 +33,6 @@ unsigned int get_ptbl_entry_by_va(unsigned int proc_index, unsigned int vaddr)
     unsigned int pte_index = get_pte(vaddr);
     unsigned int result = get_ptbl_entry(proc_index, pde_index, pte_index);
     if (result && get_pdir_entry(proc_index, pde_index)) {
-        // KERN_DEBUG("result %d\n", result);
         return result;
     }
     else 
@@ -92,11 +91,11 @@ void idptbl_init(unsigned int mbi_adr)
 
     for (i = 0; i < 1024; ++i) {
         for (j = 0; j < 1024; ++j) {
-            unsigned int addr = (i << 21); // + (j << 12)
+            unsigned int addr = (i << 22); // + (j << 12)
             if (addr < VM_USERLO || addr >= VM_USERHI)    
-                set_ptbl_entry_identity(i, j, kernelPerm);
+                set_ptbl_entry(i, j, kernelPerm);
             else
-                set_ptbl_entry_identity(i, j, normalPerm);
+                set_ptbl_entry(i, j, normalPerm);
         }
     }
 }
