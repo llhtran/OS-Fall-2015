@@ -14,7 +14,7 @@ unsigned int get_pde(unsigned int vaddr)
 
 unsigned int get_pte(unsigned int vaddr)
 {
-    unsigned int mask = (~(0) >> 22);
+    unsigned int mask = 1023; //(~(0) >> 22);
     return (vaddr >> 12) & mask;
 }
 
@@ -82,7 +82,7 @@ void set_pdir_entry_by_va(unsigned int proc_index, unsigned int vaddr, unsigned 
 // while the permission for the rest should be PTE_P and PTE_W.
 void idptbl_init(unsigned int mbi_adr)
 {
-    /*int i, j;
+    int i, j;
     int kernelPerm = PTE_P | PTE_W | PTE_G;
     int normalPerm = PTE_P | PTE_W;
 
@@ -96,5 +96,5 @@ void idptbl_init(unsigned int mbi_adr)
             else
                 set_ptbl_entry_identity(i, j, normalPerm);
         }
-    }*/
+    }
 }
