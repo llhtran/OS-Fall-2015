@@ -70,7 +70,7 @@ unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, uns
     // eliminating the permission bits
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
     unsigned int temp = pte & (unsigned int) (~(0) << 3);
-    unsigned int * addr = temp;
+    unsigned int * addr = (unsigned int *) temp;
     return addr[pte_index];
 }
 
@@ -80,7 +80,7 @@ void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 {   
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
     unsigned int temp = pte & (unsigned int) (~(0) << 3);
-    unsigned int * addr = temp;
+    unsigned int * addr = (unsigned int *) temp;
     addr[pte_index] = (unsigned int) PAGESIZE * page_index + perm; 
 }   
 
@@ -97,6 +97,6 @@ void rmv_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 {
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
     unsigned int temp = pte & (unsigned int) (~(0) << 3);
-    unsigned int * addr = temp;
+    unsigned int * addr = (unsigned int *) temp;
     addr[pte_index] = (unsigned int) 0;
 }
