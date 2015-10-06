@@ -7,12 +7,6 @@
 #define VM_USERLO_PI    (VM_USERLO / PAGESIZE)
 #define VM_USERHI_PI    (VM_USERHI / PAGESIZE)
 
-/**
- * Returns the page table entry corresponding to the virtual address,
- * according to the page structure of process # [proc_index].
- * Returns 0 if the mapping does not exist.
- */
-
 unsigned int get_pde(unsigned int vaddr)
 {
     return vaddr >> 22;
@@ -24,13 +18,19 @@ unsigned int get_pte(unsigned int vaddr)
     return (vaddr >> 12) & mask;
 }
 
+/**
+ * Returns the page table entry corresponding to the virtual address,
+ * according to the page structure of process # [proc_index].
+ * Returns 0 if the mapping does not exist.
+ */
+
 
 unsigned int get_ptbl_entry_by_va(unsigned int proc_index, unsigned int vaddr)
 {
     unsigned int pde_index = get_pde(vaddr);
     unsigned int pte_index = get_pte(vaddr);
-    unsigned int result;
-    if (result = get_ptbl_entry(proc_index, pde_index, pte_index))
+    unsigned int result = get_ptbl_entry(proc_index, pde_index, pte_index);
+    if (result && get_pdir_entry(proc_index, pde_index))
         return result;
     else 
         return 0;
