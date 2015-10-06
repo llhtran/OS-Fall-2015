@@ -15,8 +15,9 @@
  */
 unsigned int alloc_page (unsigned int proc_index, unsigned int vaddr, unsigned int perm)
 {
-	// TODO
-	return 0;
+	unsigned int page_index = alloc_ptbl(proc_index, vadr);
+	if (page_index) return map_page(proc_index, vadr, page_index, perm);
+	else return MagicNumber;
 }
 
 

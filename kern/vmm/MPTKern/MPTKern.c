@@ -36,6 +36,9 @@ void pdir_init_kern(unsigned int mbi_adr)
  */
 unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int page_index, unsigned int perm)
 {   
+	// QUESTION: but pde is a PHYSICAL ADDRESS with permissions...
+	// Do I need to get rid of permissions?
+	// What are permission for?
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
 	if (!pde) 
 	{
