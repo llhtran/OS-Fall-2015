@@ -35,8 +35,6 @@ void set_pdir_base(unsigned int index)
 // this can be used to test whether the page directory entry is mapped
 unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
-    // STILL: not sure how this can be used as a test...
-    // STILL: what about permissions?
     return (unsigned int) PDirPool[proc_index][pde_index];
 }   
 
