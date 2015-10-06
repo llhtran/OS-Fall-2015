@@ -3,6 +3,11 @@
 
 #include "import.h"
 
+#define VM_USERLO       0x40000000
+#define VM_USERHI       0xF0000000
+#define VM_USERLO_PI    (VM_USERLO / PAGESIZE)
+#define VM_USERHI_PI    (VM_USERHI / PAGESIZE)
+
 /**
  * Sets the entire page map for process 0 as identity map.
  * Note that part of the task is already completed by pdir_init.
