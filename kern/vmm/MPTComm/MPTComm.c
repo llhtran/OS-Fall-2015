@@ -18,10 +18,13 @@ void pdir_init(unsigned int mbi_adr)
 
     idptbl_init(mbi_adr);
 
-    for (i = 0; i < NUM_IDS; ++i) {
-    	for (j = 0; j < 1024; ++j) {
+    for (i = 0; i < NUM_IDS; ++i) 
+    {
+    	for (j = 0; j < 1024; ++j) 
+    	{
             unsigned int addr = (j << 22);
-        	if (addr < VM_USERLO || addr >= VM_USERHI)  {  
+        	if (addr < VM_USERLO || addr >= VM_USERHI)  
+        	{  
             	set_pdir_entry_identity(i, j);
             } else        
         		rmv_pdir_entry(i, j);
@@ -40,11 +43,13 @@ void pdir_init(unsigned int mbi_adr)
 unsigned int alloc_ptbl(unsigned int proc_index, unsigned int vadr)
 {
 	unsigned int page_index = container_alloc(proc_index);
-	if (page_index) {
+	if (page_index) 
+	{
 		unsigned int pde_index = vadr >> 22;
-		set_pdir_entry(proc_index, pde_index, page_index);
+		set_pdir_entry_by_va(proc_index, vadr, page_index);
 		int i;
-		for (i = 0; i < 1024; ++i) {
+		for (i = 0; i < 1024; ++i) 
+		{
 			rmv_ptbl_entry(proc_index, pde_index, i);
 		}
 		return page_index;
@@ -57,9 +62,11 @@ unsigned int alloc_ptbl(unsigned int proc_index, unsigned int vadr)
 // and frees the page for the page table entries (with container_free).
 void free_ptbl(unsigned int proc_index, unsigned int vadr)
 {
-	unsigned int pde_index = vadr >> 22;
-	rmv_pdir_entry(proc_index, pde_index);
-	unsigned int pde = get_pdir_entry(proc_index, pde_index);
+	rmv_pdir_entry_by_va(proc_index, vadr);
+	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
+	
+	// getting page_index
+	// mod to get rid of permissions
 	unsigned int page_index = (pde - (pde % PAGESIZE)) / PAGESIZE;
 	container_free(proc_index, page_index);
 }

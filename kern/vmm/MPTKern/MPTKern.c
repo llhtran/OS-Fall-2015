@@ -9,11 +9,16 @@
  */
 void pdir_init_kern(unsigned int mbi_adr)
 {
-    // TODO: define your local variables here.
+	int i;
+	unsigned int kernProc = 0;
 
     pdir_init(mbi_adr);
-    
-    //TODO
+
+    for (i = 0; i < 1024; ++i) 
+    {
+        if (addr >= VM_USERLO || addr < VM_USERHI)  
+           	set_pdir_entry_identity(kernProc, i);
+    }
 }
 
 /**
@@ -25,8 +30,15 @@ void pdir_init_kern(unsigned int mbi_adr)
  */
 unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int page_index, unsigned int perm)
 {   
-  // TODO
-  return 0;
+	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
+	if (!pde) 
+	{
+		unsigned int page_index = alloc_ptbl(proc_index, vadr);
+		if (!page_index) return MagicNumber; 
+		else return page_index;
+	}
+	else 
+		return pde;
 }
 
 /**
