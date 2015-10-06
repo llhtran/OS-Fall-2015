@@ -36,6 +36,7 @@ void set_pdir_base(unsigned int index)
 unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
     // assuming if it's not mapped, it's 0
+    // TODO QUESTION: newman?
     return (unsigned int) PDirPool[proc_index][pde_index];
 }   
 
@@ -44,7 +45,7 @@ unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned int page_index)
 {
     // TODO: Use PT_PERM_PTU
-    PDirPool[proc_index][pde_index] = (char *) (PAGESIZE * page_index + 7);
+    PDirPool[proc_index][pde_index] = (char *) (PAGESIZE * page_index | PT_PERM_PTU);
 }   
 
 // sets the page directory entry # [pde_index] for the process # [proc_index]
@@ -53,7 +54,7 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // this will be used to map the page directory entry to identity page table.
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
-    PDirPool[proc_index][pde_index] = (char *) IDPTbl[pde_index] + 7;
+    PDirPool[proc_index][pde_index] = (char *) IDPTbl[pde_index] | PT_PERM_PTU;
 }   
 
 // removes specified page directory entry (set the page directory entry to 0).
@@ -88,7 +89,7 @@ void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // you should also set the given permission
 void set_ptbl_entry_identity(unsigned int pde_index, unsigned int pte_index, unsigned int perm)
 {
-    unsigned int idAddr = (pde_index << 22) + (pte_index << 12) + perm;
+    unsigned int idAddr = (pde_index << 22) | (pte_index << 12) | perm;
     IDPTbl[pde_index][pte_index] = idAddr;
 }
 
