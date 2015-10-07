@@ -36,9 +36,6 @@ void pdir_init_kern(unsigned int mbi_adr)
 */
 unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int page_index, unsigned int perm)
 {   
-	// QUESTION: but pde is a PHYSICAL ADDRESS with permissions...
-	// Do I need to get rid of permissions?
-	// What are permission for?
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
 	unsigned int retVal = 0;
 	if (!pde) // if nothing is allocated
@@ -46,16 +43,7 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
 		if (!ptbl) return MagicNumber; // allocation fails
 		else retVal = ptbl;
-		// {
-		// 	set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
-		// 	return ptbl;
-		// }
 	}
-	// else
-	// {	
-	// 	set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
-	// 	return 0;
-	// }
 	set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
 	return retVal;
 
