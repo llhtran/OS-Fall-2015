@@ -123,10 +123,12 @@ unsigned int container_split(unsigned int id, unsigned int quota)
  */
 unsigned int container_alloc(unsigned int id)
 {
-	if (CONTAINER[id].usage < CONTAINER[id].quota)
+	if (container_can_consume(id, 1))
 	{
-		CONTAINER[id].usage++;
-		return palloc();
+		new_pi = palloc();
+		if (new_pi)
+			CONTAINER[id].usage++;
+		return new_pi;
 	}
 	// usage is already full
 	else return 0;
