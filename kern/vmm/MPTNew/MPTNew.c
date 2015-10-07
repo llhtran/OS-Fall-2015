@@ -16,7 +16,7 @@
 unsigned int alloc_page (unsigned int proc_index, unsigned int vaddr, unsigned int perm)
 {
 	// QUESTION: What is this even doing?
-	unsigned int page_index = alloc_ptbl(proc_index, vaddr);
+	unsigned int page_index = container_alloc(proc_index);
 	if (page_index) return map_page(proc_index, vaddr, page_index, perm);
 	else return MagicNumber;
 }

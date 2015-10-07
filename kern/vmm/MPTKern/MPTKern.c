@@ -48,7 +48,6 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 	// Do I need to get rid of permissions?
 	// What are permission for?
 	unsigned int pde = get_pdir_entry_by_va(proc_index, vadr);
-	pde >>= 12;
 	if (!pde) // if nothing is allocated
 	{
 		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
