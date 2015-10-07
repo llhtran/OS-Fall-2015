@@ -125,7 +125,7 @@ unsigned int container_alloc(unsigned int id)
 {
 	if (container_can_consume(id, 1))
 	{
-		new_pi = palloc();
+		unsigned int new_pi = palloc();
 		if (new_pi)
 			CONTAINER[id].usage++;
 		return new_pi;
