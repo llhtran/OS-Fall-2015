@@ -22,8 +22,7 @@ void pdir_init(unsigned int mbi_adr)
     {
     	for (j = 0; j < 1024; ++j) 
     	{
-            unsigned int addr = (j << 22);
-        	if (addr < VM_USERLO || addr >= VM_USERHI)  
+        	if (j < (VM_USERLO_PI / 1024) || j >= (VM_USERHI_PI / 1024)  
             	set_pdir_entry_identity(i, j);
             //else        
         	//	rmv_pdir_entry(i, j);
