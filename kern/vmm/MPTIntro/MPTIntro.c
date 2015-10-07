@@ -36,7 +36,6 @@ void set_pdir_base(unsigned int index)
 unsigned int get_pdir_entry(unsigned int proc_index, unsigned int pde_index)
 {
     // assuming if it's not mapped, it's 0
-    // TODO QUESTION: newman?
     return (unsigned int) PDirPool[proc_index][pde_index];
 }   
 
@@ -53,6 +52,7 @@ void set_pdir_entry(unsigned int proc_index, unsigned int pde_index, unsigned in
 // this will be used to map the page directory entry to identity page table.
 void set_pdir_entry_identity(unsigned int proc_index, unsigned int pde_index)
 {   
+    // QUESTION: Does this give the actual address of where IDPTbl is in hardware
     PDirPool[proc_index][pde_index] = (char *) ((unsigned int) IDPTbl[pde_index] | PT_PERM_PTU);
 }   
 
@@ -69,7 +69,8 @@ unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, uns
 {   
     // eliminating the permission bits
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
-    unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    // unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    unsigned int temp = pte - (pte % PAGESIZE);
     unsigned int * addr = (unsigned int *) temp;
     return addr[pte_index];
 }
@@ -79,7 +80,8 @@ unsigned int get_ptbl_entry(unsigned int proc_index, unsigned int pde_index, uns
 void set_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index, unsigned int page_index, unsigned int perm)
 {   
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
-    unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    // unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    unsigned int temp = pte - (pte % PAGESIZE);
     unsigned int * addr = (unsigned int *) temp;
     addr[pte_index] = (unsigned int) PAGESIZE * page_index + perm; 
 }   
@@ -96,7 +98,8 @@ void set_ptbl_entry_identity(unsigned int pde_index, unsigned int pte_index, uns
 void rmv_ptbl_entry(unsigned int proc_index, unsigned int pde_index, unsigned int pte_index)
 {
     unsigned int pte = (unsigned int) PDirPool[proc_index][pde_index];
-    unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    // unsigned int temp = pte & (unsigned int) (~(0U) << 3);
+    unsigned int temp = pte - (pte % PAGESIZE);
     unsigned int * addr = (unsigned int *) temp;
     addr[pte_index] = (unsigned int) 0;
 }

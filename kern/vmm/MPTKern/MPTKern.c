@@ -51,10 +51,9 @@ unsigned int map_page(unsigned int proc_index, unsigned int vadr, unsigned int p
 	if (!pde) // if nothing is allocated
 	{
 		unsigned int ptbl = alloc_ptbl(proc_index, vadr);
-		if (!ptbl) return MagicNumber; 
+		if (!ptbl) return MagicNumber; // allocation fails
 		else 
 		{
-			// QUESTION: why do I need set_pdir_entry_id?
 			set_ptbl_entry_by_va(proc_index, vadr, page_index, perm);
 			return ptbl;
 		}
