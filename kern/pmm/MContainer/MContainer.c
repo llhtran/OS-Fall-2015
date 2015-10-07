@@ -83,7 +83,7 @@ unsigned int container_get_usage(unsigned int id)
 // [n] pages of memory. If so, returns 1, o.w., returns 0.
 unsigned int container_can_consume(unsigned int id, unsigned int n)
 {
-	if (n < CONTAINER[id].quota - CONTAINER[id].usage) return 1;
+	if (n <= CONTAINER[id].quota - CONTAINER[id].usage) return 1;
 	else return 0;
 }
 

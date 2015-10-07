@@ -56,7 +56,7 @@ void rmv_ptbl_entry_by_va(unsigned int proc_index, unsigned int vaddr)
 void rmv_pdir_entry_by_va(unsigned int proc_index, unsigned int vaddr)
 {
     unsigned int pde_index = get_pde(vaddr);
-    return rmv_pdir_entry(proc_index, pde_index);
+    rmv_pdir_entry(proc_index, pde_index);
 }
 
 // maps the virtual address [vaddr] to the physical page # [page_index] with permission [perm]
