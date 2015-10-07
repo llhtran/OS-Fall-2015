@@ -27,14 +27,6 @@ void pdir_init_kern(unsigned int mbi_adr)
     }
 }
 
-/**
- * Maps the physical page # [page_index] for the given virtual address with the given permission.
- * In the case, when the page table for the page directory entry is not set up, you need to allocate the page table first.
- * In the case of error, it returns the constant MagicNumber defined in lib/x86.h,
- * otherwise, it returns the physical page index registered in the page directory,
- * e.g., the return value of get_pdir_entry_by_va or alloc_ptbl.
- */
-
  /**
 * Maps the physical page # [page_index] for the given virtual address with the given permission.
 * In the case, when the page table for the page directory entry is not set up, you need to allocate the page table first.
