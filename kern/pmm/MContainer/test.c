@@ -28,12 +28,14 @@ int MContainer_test2()
   if (container_get_quota(chid) != 100 || container_get_parent(chid) != 0 ||
       container_get_usage(chid) != 0 || container_get_nchildren(chid) != 0 ||
       container_get_usage(0) != old_usage + 100 || container_get_nchildren(0) != old_nchildren + 1) {
-    dprintf("test 2 failed.\n");
+		dprintf("old_usage %d old_nchildrend %d chid %d\n", old_usage, old_nchildren, chid);
+		dprintf("child quota %d parent %d chid usage %d chid children %d\n", container_get_quota(chid), container_get_parent(chid), container_get_usage(chid), container_get_nchildren(chid));
+		dprintf("test 2.1 failed.\n");
     return 1;
   }
   container_alloc(chid);
   if (container_get_usage(chid) != 1) {
-    dprintf("test 2 failed.\n");
+    dprintf("test 2.2 failed.\n");
     return 1;
   }
   dprintf("test 2 passed.\n");
